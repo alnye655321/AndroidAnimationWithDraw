@@ -52,6 +52,9 @@ public class MainActivity extends Activity {
             //mBitmaps.add(BitmapFactory.decodeResource(getResources(), resId, options)); //using options for Bitmap Factory scaling
             mBitmaps.add(BitmapFactory.decodeResource(getResources(), resId)); //without scaling
         }
+        final Bitmap bitmapPosDrawable = mBitmaps.get(0); // save reference to example drawable png - all have same dimensions
+        final int bitmapCenterX = bitmapPosDrawable.getWidth()/2; // get the center X position in image, px
+        final int bitmapCenterY = bitmapPosDrawable.getHeight()/2; // get the center Y position in image, px
 
         // create view and start draw
         ViewGroup root = (ViewGroup) findViewById(R.id.activity_main);
@@ -60,14 +63,14 @@ public class MainActivity extends Activity {
             public void draw(Canvas canvas) {
                 canvas.drawBitmap(mBitmaps.get(Math.abs(mBitmapIndex.get() % mBitmaps.size())), 10, 10, null); //png animation
                 super.draw(canvas);
-
+//Bitmap bitmap = mBitmaps.get(Math.abs(mBitmapIndex.get()));
                 //circle draws
                 Paint paint = new Paint();
                 paint.setStyle(Paint.Style.FILL);
                 int paintColor = Color.parseColor("#446ef8");
                 paint.setColor(paintColor);
                 //paint.setARGB(a, r, g, b);
-                canvas.drawCircle(getWidth()/2, getHeight()/2, 25, paint); //currently x and y are placing in center screen
+                canvas.drawCircle(bitmapCenterX, bitmapCenterY, 25, paint); //currently x and y are placing in center screen
             }
         });
     }
