@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +27,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BitmapFactory.Options options = new BitmapFactory.Options(); //scaling down image
-        options.inSampleSize = 2; //by factors of 2
+        //BitmapFactory.Options options = new BitmapFactory.Options(); //scaling down image
+        //options.inSampleSize = 2; //by factors of 2
 
 
         // load images
@@ -47,7 +49,8 @@ public class MainActivity extends Activity {
                 R.drawable.human115, R.drawable.human117, R.drawable.human119, R.drawable.human001, R.drawable.human001,
                 R.drawable.human001, R.drawable.human001
         }){
-            mBitmaps.add(BitmapFactory.decodeResource(getResources(), resId, options));
+            //mBitmaps.add(BitmapFactory.decodeResource(getResources(), resId, options)); //using options for Bitmap Factory scaling
+            mBitmaps.add(BitmapFactory.decodeResource(getResources(), resId)); //without scaling
         }
 
         // create view and start draw
@@ -55,8 +58,16 @@ public class MainActivity extends Activity {
         root.addView(mView = new View(this){
             @Override
             public void draw(Canvas canvas) {
-                canvas.drawBitmap(mBitmaps.get(Math.abs(mBitmapIndex.get() % mBitmaps.size())), 10, 10, null);
+                canvas.drawBitmap(mBitmaps.get(Math.abs(mBitmapIndex.get() % mBitmaps.size())), 10, 10, null); //png animation
                 super.draw(canvas);
+
+                //circle draws
+                Paint paint = new Paint();
+                paint.setStyle(Paint.Style.FILL);
+                int paintColor = Color.parseColor("#446ef8");
+                paint.setColor(paintColor);
+                //paint.setARGB(a, r, g, b);
+                canvas.drawCircle(getWidth()/2, getHeight()/2, 25, paint); //currently x and y are placing in center screen
             }
         });
     }
